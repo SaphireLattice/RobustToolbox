@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using Linguini.Bundle;
 using Robust.Shared.GameObjects;
 using Robust.Shared.IoC;
+using Robust.Shared.Serialization;
 
 namespace Robust.Shared.Localization
 {
@@ -103,6 +104,7 @@ namespace Robust.Shared.Localization
     /// </remarks>
     /// <typeparam name="T">The type of value stored.</typeparam>
     [PublicAPI]
+    [Serializable, NetSerializable]
     public abstract record LocValue<T> : ILocValue
     {
         /// <summary>
@@ -127,6 +129,7 @@ namespace Robust.Shared.Localization
     */
     }
 
+    [Serializable, NetSerializable]
     public sealed record LocValueNumber(double Value) : LocValue<double>(Value)
     {
         public override string Format(LocContext ctx)
@@ -135,6 +138,7 @@ namespace Robust.Shared.Localization
         }
     }
 
+    [Serializable, NetSerializable]
     public sealed record LocValueDateTime(DateTime Value) : LocValue<DateTime>(Value)
     {
         public override string Format(LocContext ctx)
@@ -143,6 +147,7 @@ namespace Robust.Shared.Localization
         }
     }
 
+    [Serializable, NetSerializable]
     public sealed record LocValueTimeSpan(TimeSpan Value) : LocValue<TimeSpan>(Value)
     {
         public override string Format(LocContext ctx)
@@ -151,6 +156,7 @@ namespace Robust.Shared.Localization
         }
     }
 
+    [Serializable, NetSerializable]
     public sealed record LocValueString(string Value) : LocValue<string>(Value)
     {
         public override string Format(LocContext ctx)
@@ -163,6 +169,7 @@ namespace Robust.Shared.Localization
     /// <summary>
     ///     Stores an "invalid" string value. Produced by e.g. unresolved variable references.
     /// </summary>
+    [Serializable, NetSerializable]
     public sealed record LocValueNone(string Value) : LocValue<string>(Value)
     {
         public override string Format(LocContext ctx)
@@ -176,6 +183,17 @@ namespace Robust.Shared.Localization
         public override string Format(LocContext ctx)
         {
             return IoCManager.Resolve<IEntityManager>().GetComponent<MetaDataComponent>(Value).EntityName;
+        }
+    }
+
+    [Serializable, NetSerializable]
+    public sealed record LocValueNetEntity(NetEntity Value) : LocValue<NetEntity>(Value)
+    {
+        public override string Format(LocContext ctx)
+        {
+            var _entityManager = IoCManager.Resolve<IEntityManager>();
+            var entity = _entityManager.GetEntity(Value);
+            return _entityManager.GetComponent<MetaDataComponent>(entity).EntityName;
         }
     }
 

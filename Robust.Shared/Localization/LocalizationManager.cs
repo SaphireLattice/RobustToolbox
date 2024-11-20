@@ -252,6 +252,36 @@ namespace Robust.Shared.Localization
 
         #endregion
 
+        #region get net message
+        public string GetString(LocNetMessage message)
+        {
+            return message.Id;
+        }
+        public string GetString(LocNetMessage? message)
+        {
+            if (message.HasValue)
+                return GetString(message.Value);
+            return "No loc message!";
+        }
+
+        public LocNetMessage GetStringNet(string messageId)
+        {
+            return new LocNetMessage(messageId);
+        }
+        public LocNetMessage GetStringNet(string messageId, (string, object) arg1)
+        {
+            return new LocNetMessage(messageId);
+        }
+        public LocNetMessage GetStringNet(string messageId, (string, object) arg1, (string, object) arg2)
+        {
+            return new LocNetMessage(messageId);
+        }
+        public LocNetMessage GetStringNet(string messageId, params (string, object)[] args)
+        {
+            return new LocNetMessage(messageId);
+        }
+        #endregion
+
         private bool HasMessage(
             string messageId,
             [NotNullWhen(true)] out (CultureInfo, FluentBundle)? culture)

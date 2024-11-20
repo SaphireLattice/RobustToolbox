@@ -30,6 +30,9 @@ namespace Robust.Shared.Localization
         /// </returns>
         string GetString(string messageId);
 
+        string GetString(LocNetMessage message);
+        string GetString(LocNetMessage? message);
+
         /// <summary>
         ///     Checks if the specified id has been registered, without checking its arguments.
         /// </summary>
@@ -87,6 +90,27 @@ namespace Robust.Shared.Localization
         ///     Does however log errors if any occur while formatting.
         /// </remarks>
         bool TryGetString(string messageId, [NotNullWhen(true)] out string? value, params (string, object)[] keyArgs);
+
+        /// <summary>
+        ///     Builds networked localisation string data, to be sent to client
+        /// </summary>
+        /// <param name="messageId">Unique Identifier for a translated message.</param>
+        LocNetMessage GetStringNet(string messageId);
+
+        /// <summary>
+        ///     Version of <see cref="GetStringNet(string)"/> that supports arguments.
+        /// </summary>
+        LocNetMessage GetStringNet(string messageId, (string, object) arg);
+
+        /// <summary>
+        ///     Version of <see cref="GetStringNet(string)"/> that supports arguments.
+        /// </summary>
+        LocNetMessage GetStringNet(string messageId, (string, object) arg, (string, object) arg2);
+
+        /// <summary>
+        ///     Version of <see cref="GetStringNet(string)"/> that supports arguments.
+        /// </summary>
+        LocNetMessage GetStringNet(string messageId, params (string, object)[] args);
 
         /// <summary>
         ///     Default culture used by other methods when no culture is explicitly specified.
